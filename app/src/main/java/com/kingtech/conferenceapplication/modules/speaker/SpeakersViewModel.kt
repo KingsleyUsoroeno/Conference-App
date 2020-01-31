@@ -9,7 +9,6 @@ import com.kingtech.conferenceapplication.data.ConferenceRepository
 import com.kingtech.conferenceapplication.data.local.entities.Speaker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SpeakersViewModel(private val conferenceRepository: ConferenceRepository) : ViewModel() {
 
@@ -62,31 +61,31 @@ class SpeakersViewModel(private val conferenceRepository: ConferenceRepository) 
         val duration = durationMutableLiveData.value!!.toInt()
 
         val speaker = Speaker(duration, email, name, password, topic)
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                try {
-                    loadingStateMutableLiveData.postValue(true)
-                    Log.i("AttendantVM", "making network call")
-                    val res = conferenceRepository.registerUser(speaker)
-                    if (res.isSuccessful) {
-                        loadingStateMutableLiveData.postValue(false)
-                        successStateMutableLiveData.postValue(true)
-                        Log.i("speakerVm", "response is ${res.body()?.string()}")
-                        clear()
-                    } else {
-                        loadingStateMutableLiveData.postValue(false)
-                        Log.i("speakerVm", "error msg is ${res.errorBody()?.string()}")
-                        errorStateMutableLiveData.postValue(res.errorBody()?.string())
-                        successStateMutableLiveData.postValue(false)
-                    }
-                } catch (e: Throwable) {
+        viewModelScope.launch(Dispatchers.Main) {
+
+            try {
+                loadingStateMutableLiveData.postValue(true)
+                Log.i("AttendantVM", "making network call")
+                val res = conferenceRepository.registerUser(speaker)
+                if (res.isSuccessful) {
                     loadingStateMutableLiveData.postValue(false)
-                    Log.i("speakerVm", "error msg is ${e.message}")
-                    errorStateMutableLiveData.postValue(e.message)
+                    successStateMutableLiveData.postValue(true)
+                    Log.i("speakerVm", "response is ${res.body()?.string()}")
+                    clear()
+                } else {
+                    loadingStateMutableLiveData.postValue(false)
+                    Log.i("speakerVm", "error msg is ${res.errorBody()?.string()}")
+                    errorStateMutableLiveData.postValue(res.errorBody()?.string())
                     successStateMutableLiveData.postValue(false)
                 }
+            } catch (e: Throwable) {
+                loadingStateMutableLiveData.postValue(false)
+                Log.i("speakerVm", "error msg is ${e.message}")
+                errorStateMutableLiveData.postValue(e.message)
+                successStateMutableLiveData.postValue(false)
             }
         }
+
     }
 
     fun clear() {

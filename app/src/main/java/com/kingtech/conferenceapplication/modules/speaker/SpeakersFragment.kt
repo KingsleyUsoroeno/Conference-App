@@ -52,7 +52,7 @@ class SpeakersFragment : Fragment() {
             if (isLoading) spinner.show() else spinner.dismiss()
         })
         viewModel.successState.observe(viewLifecycleOwner, Observer { isSuccessful ->
-            if (isSuccessful && spinner.isShowing) {
+            if (isSuccessful) {
                 spinner.dismiss()
                 Toast.makeText(
                     this.requireContext(),
@@ -63,11 +63,12 @@ class SpeakersFragment : Fragment() {
 
         })
         viewModel.errorState.observe(viewLifecycleOwner, Observer { error ->
-            if (error.isEmpty()) {
+            if (error.trim().isEmpty()) {
                 Toast.makeText(requireContext(), "Operation Failed", Toast.LENGTH_LONG).show()
 
             }
-            Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Encountered an issue $error", Toast.LENGTH_LONG)
+                .show()
         })
     }
 

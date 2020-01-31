@@ -57,7 +57,7 @@ class AttendantFragment : Fragment() {
             if (isSuccessful && spinner.isShowing) spinner.dismiss()
             Toast.makeText(
                 this.requireContext(),
-                "Speaker registered successfully ",
+                "Attendant registered successfully ",
                 Toast.LENGTH_LONG
             ).show()
         })

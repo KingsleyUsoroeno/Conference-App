@@ -9,7 +9,6 @@ import com.kingtech.conferenceapplication.data.ConferenceRepository
 import com.kingtech.conferenceapplication.data.local.entities.Atteendee
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class AttendantViewModel(private val conferenceRepository: ConferenceRepository) : ViewModel() {
 
@@ -60,8 +59,7 @@ class AttendantViewModel(private val conferenceRepository: ConferenceRepository)
         val password = passwordMutableLiveData.value!!
 
         val attendant = Atteendee(email, firstName, lastName, password)
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
                 try {
                     Log.i("AttendantVM", "making network call")
                     loadingStateMutableLiveData.postValue(true)
@@ -83,7 +81,6 @@ class AttendantViewModel(private val conferenceRepository: ConferenceRepository)
                     errorStateMutableLiveData.postValue(e.message)
                     Log.i("AttendantVm", "error msg is ${e.message}")
                 }
-            }
         }
     }
 
