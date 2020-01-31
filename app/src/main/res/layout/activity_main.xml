@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="activityViewModel"
+            type="com.kingtech.conferenceapplication.ActivityViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        tools:context=".MainActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/accountType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Choose Account Type"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layoutAttendant"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/curved_drawable"
+                android:gravity="center"
+                android:onClick="@{() -> activityViewModel.navigateOnStateClicked(0)}"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@id/layoutSpeakers"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/accountType">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/attendants" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Attendants"
+                    android:textSize="18sp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layoutSpeakers"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/curved_drawable"
+                android:gravity="center"
+                android:onClick="@{() -> activityViewModel.navigateOnStateClicked(1)}"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/layoutAttendant"
+                app:layout_constraintTop_toTopOf="@id/layoutAttendant">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/speakers" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Speakers"
+                    android:textSize="18sp" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layoutChecked"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/circle_drawable"
+                android:gravity="center"
+                android:visibility="@{activityViewModel.stateCountLiveData == 0 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@id/layoutAttendant"
+                app:layout_constraintEnd_toEndOf="@id/layoutAttendant"
+                app:layout_constraintStart_toStartOf="@id/layoutAttendant"
+                app:layout_constraintTop_toBottomOf="@id/layoutAttendant">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_tick"
+                    android:tint="#ffffff" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layoutChecked2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/circle_drawable"
+                android:gravity="center"
+                android:visibility="@{activityViewModel.stateCountLiveData == 1 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@id/layoutSpeakers"
+                app:layout_constraintEnd_toEndOf="@id/layoutSpeakers"
+                app:layout_constraintStart_toStartOf="@id/layoutSpeakers"
+                app:layout_constraintTop_toBottomOf="@id/layoutSpeakers">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_tick"
+                    android:tint="#ffffff" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/introTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:gravity="center"
+                android:text="@{activityViewModel.stateCountLiveData == 0 ? @string/hello_attendant : @string/hello_speaker}"
+                app:layout_constraintEnd_toEndOf="@id/layoutSpeakers"
+                app:layout_constraintStart_toStartOf="@id/layoutAttendant"
+                app:layout_constraintTop_toBottomOf="@id/layoutAttendant"
+                tools:text="@string/hello_attendant" />
+
+
+            <fragment
+                android:id="@+id/nav_host_fragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                app:defaultNavHost="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/layoutAttendant"
+                app:layout_constraintRight_toRightOf="@id/layoutSpeakers"
+                app:layout_constraintTop_toBottomOf="@id/introTextView"
+                app:navGraph="@navigation/nav_graph" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

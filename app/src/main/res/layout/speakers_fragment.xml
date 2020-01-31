@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="speakerVm"
+            type="com.kingtech.conferenceapplication.modules.speaker.SpeakersViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputName"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:hint="Name"
+                app:boxStrokeColor="@color/colorAccent"
+                app:boxStrokeWidth="1dp"
+                app:error="@{speakerVm.nameErrorMutableLiveData}"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="text"
+                    android:text="@={speakerVm.nameMutableLiveData}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputTopic"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Topic"
+                app:boxStrokeColor="@color/colorAccent"
+                app:error="@{speakerVm.topicErrorMutableLiveData}"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="@id/textInputName"
+                app:layout_constraintStart_toStartOf="@id/textInputName"
+                app:layout_constraintTop_toBottomOf="@id/textInputName">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="text"
+                    android:text="@={speakerVm.topicMutableLiveData}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputEmail"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Email"
+                app:boxStrokeColor="@color/colorAccent"
+                app:error="@{speakerVm.emailErrorMutableLiveData}"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="@id/textInputTopic"
+                app:layout_constraintStart_toStartOf="@id/textInputTopic"
+                app:layout_constraintTop_toBottomOf="@id/textInputTopic">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textEmailAddress"
+                    android:text="@={speakerVm.emailMutableLiveData}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputPassword"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Password"
+                app:boxStrokeColor="@color/colorAccent"
+                app:error="@{speakerVm.passwordErrorMutableLiveData}"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="@id/textInputTopic"
+                app:layout_constraintStart_toStartOf="@id/textInputTopic"
+                app:layout_constraintTop_toBottomOf="@id/textInputEmail">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textEmailAddress"
+                    android:text="@={speakerVm.passwordMutableLiveData}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputSecretQuestion"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Duration"
+                app:boxStrokeColor="@color/colorAccent"
+                app:error="@{speakerVm.durationErrorMutableLiveData}"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="@id/textInputTopic"
+                app:layout_constraintStart_toStartOf="@id/textInputTopic"
+                app:layout_constraintTop_toBottomOf="@id/textInputPassword">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number"
+                    android:text="@={speakerVm.durationMutableLiveData}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSignUp"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="10dp"
+                android:onClick="@{()-> speakerVm.registerSpeaker()}"
+                android:text="Register"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:cornerRadius="6dp"
+                app:layout_constraintEnd_toEndOf="@id/textInputSecretQuestion"
+                app:layout_constraintStart_toStartOf="@id/textInputSecretQuestion"
+                app:layout_constraintTop_toBottomOf="@id/textInputSecretQuestion"
+                app:rippleColor="@color/colorAccent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
